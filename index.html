@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>مطعم معتز</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      direction: rtl;
+      margin: 0;
+      padding: 0;
+      background: #f7f7f7;
+    }
+    header {
+      background-color: #c0392b;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    .section {
+      padding: 20px;
+      border-bottom: 1px solid #ddd;
+    }
+    .section h2 {
+      color: #c0392b;
+    }
+    .items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+    .item {
+      background: white;
+  padding: 10px;
+  border: 1px solid #ccc;
+  width: 100%;
+  max-width: 200px;
+  text-align: center;
+  border-radius: 10px;
+  box-sizing: border-box;
+    }
+    .item button {
+      background: #27ae60;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin: 0 2px;
+    }
+    .item .remove {
+      background: #e74c3c;
+    }
+    .cart {
+     background: #ecf0f1;
+  padding: 20px;
+  text-align: center;
+  box-sizing: border-box;
+    }
+    .cart-items {
+      margin-top: 10px;
+    }
+    .quantity-box {
+      display: inline-block;
+      width: 30px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .confirm-button {
+      background: #2980b9;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-top: 20px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+    .modal-content {
+      background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  width: 90%;
+  max-width: 300px;
+    }
+    .modal-content input, .modal-content select {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+
+    @media screen and (max-width: 600px) {
+      .items {
+        flex-direction: column;
+        align-items: center;
+      }
+      .item {
+        width: 90%;
+      }
+      .modal-content {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>مرحباً بكم في مطعم معتز</h1>
+</header>
+
+<div class="section" id="section1"><h2>الوجبات</h2><div class="items" id="items1"></div></div>
+<div class="section" id="section2"><h2>السندوتشات</h2><div class="items" id="items2"></div></div>
+<div class="section" id="section3"><h2>البيتزا</h2><div class="items" id="items3"></div></div>
+<div class="section" id="section7"><h2>بيتزا حجم كبير</h2><div class="items" id="items7"></div></div>
+<div class="section" id="section4"><h2>بوكسات معتز</h2><div class="items" id="items4"></div></div>
+<div class="section" id="section5"><h2>الوجبات الإضافية</h2><div class="items" id="items5"></div></div>
+<div class="section" id="section6"><h2>الإضافات</h2><div class="items" id="items6"></div></div>
+
+<div class="cart">
+  <h2>سلة الطلبات</h2>
+  <div class="cart-items" id="cartItems">لا توجد طلبات بعد.</div>
+  <button class="confirm-button" onclick="openModal()">تأكيد الطلب</button>
+</div>
+
+<div class="modal" id="orderModal">
+  <div class="modal-content">
+    <h3>معلومات الطلب</h3>
+    <input type="text" id="phone" placeholder="رقم الهاتف">
+    <input type="text" id="address" placeholder="الموقع الحالي أو مكان السكن">
+    <select id="deliveryMethod">
+      <option value="توصيل">توصيل</option>
+      <option value="تناول في المطعم">تناول في المطعم</option>
+    </select>
+    <input type="number" id="tableNumber" placeholder="أدخل رقم الطاولة (من 1 إلى 15)" min="1" max="15">
+<small>ملاحظة: يوجد 15 طاولة فقط</small>
+
+    <button onclick="submitOrder()">تأكيد</button>
+  </div>
+</div>
+
+<script>
+const menu = {
+  section1: [
+    ["نصف دجاج مشوي على الفحم", 20],
+    ["نصف دجاج مشوي ساده", 15],
+    ["وجبة بانيه 3 قطع", 25],
+    ["وجبة هامبورجر 3 قطع", 25],
+    ["وجبة كبدة جريل", 35],
+    ["وجبة شيش 3 أسياخ", 25],
+    ["وجبة كباب لحم 3 أسياخ", 25],
+    ["وجبة كباب دجاج 3 أسياخ", 22],
+    ["وجبة توستر 7 قطع", 20],
+    ["وجبة زنجر", 20],
+    ["وجبة إستربس 5 قطع", 18],
+    ["وجبة إستربس 8 قطع", 28],
+    ["وجبة أطفال", 15],
+    ["وجبة كبده على الفحم", 50],
+    ["وجبة معتز", 30],
+  ],
+  section2: [
+    ["هامبورجر لحم", 9],["كباب لحم", 9],["شيش طاووق بانيه", 9],["بانيه", 9],
+    ["زنجر معتز", 10],["توستر", 9],["طابونه", 9],["مكسكانو", 9],
+    ["هامبورجر دبل", 13],["بانيه دبل", 13],["كبده", 10],["إستيك دجاج", 9],
+    ["توستر صاروخ", 12],["مايتي زنجر", 12],["لافينو", 12],["كرسبي", 9],
+    ["كباب دجاج", 9],["هامبورجر دجاج", 9],
+  ],
+  section3: [
+    ["بيتزا مارجرينا", 18],["بيتزا حارة", 18],["بيتزا تن", 20],["بيتزا خضروات", 18],
+    ["بيتزا دجاج", 20],["بيتزا مفروم", 20],["بيتزا فقاع", 18],["بيتزا معتز", 20],
+    ["مقلوبه دجاج", 18],["مقلوبة مفروم", 18],["مقلوبة جبنه", 18],
+  ],
+  section7: [
+    ["بيتزا مارجرينا (كبير)", 20],["بيتزا حارة (كبير)", 20],["بيتزا تن (كبير)", 22],
+    ["بيتزا خضروات (كبير)", 20],["بيتزا دجاج (كبير)", 22],["بيتزا مفروم (كبير)", 22],
+    ["بيتزا فقاع (كبير)", 20],["بيتزا معتز (كبير)", 25],
+  ],
+  section4: [
+    ["كومبو بالمشروب", 15],["بوكس بورجر", 12],["بوكس توستر", 12],["بوكس كرسبي", 12],
+    ["بوكس بانيه", 12],["بوكس ميني زينجر", 12],["بوكس كباب", 12],
+    ["بوكس طابونة", 12],["بوكس مكسكانو", 12],["بوكس السعادة", 50],["بوكس معتز", 60],
+  ],
+  section5: [
+    ["وجبة 1: بطاطة -سلاطة - خبزة - كول سلو + 3 قطع كنتاكي", 18],
+    ["وجبة 2: بطاطة - سلاطة - خبزه - أرز كول سلو + 12 قطعة كنتاكي", 57],
+    ["وجبة 3: بطاطة - سلاطة - خبزة  - كول سلو + 5 قطع ستربس", 15],
+    ["وجبة 4: بطاطة - سلاطه - خبزة - أرز كول سلو + 6 قطع كنتاكي", 37],
+    ["وجبة 5: بطاطة - سلاطه - خبزة - أرز كول سلو + 15 قطعة كنتاكي", 76],
+    ["وجبة 6: شيش - كباب - توستر", 15],
+    ["وجبة 7: بطاطة - سلاطه - خبزة - أرز كول سلو+ 9 قطع كنتاكي", 47],
+    ["وجبة 8: بطاطه - صوص - مخلل + بوكس توستر", 15],
+    ["وجبة 9: بطاطة - سلاطه - خبزة - أرز كول سلو + 8 قطع ستربس", 20],
+  ],
+  section6: [
+    ["طبق بطاطا صغير", 3],["طبق بطاطا وسط", 5],["طبق بطاطا كبير", 10],
+    ["طرف كنتاكي", 4],["سندوتش فلافل", 3],["سلاطة كول سول", 2],
+    ["كاتشب - مايونيز - صوص حار", 2],["أرز", 3],["سندوتش فول", 3],
+    ["5 قطع فلافل", 1],["طبق مخلل", 3],["سندوتش مشكل", 4],
+    ["طعمية بالبيض", 4],["طبق فول صغير", 4],["طبق فول كبير", 5],
+  ],
+};
+
+const cart = {};
+
+function renderItems() {
+  for (let section in menu) {
+    const container = document.getElementById(section);
+    if (!container) continue;
+    menu[section].forEach(([name, price]) => {
+      const item = document.createElement("div");
+      item.className = "item";
+      item.innerHTML = `
+        <div>${name}<br><strong>${price} د.ل</strong></div>
+        <button onclick="addToCart('${name}', ${price})">+</button>
+        <span class="quantity-box" id="qty-${name}">0</span>
+        <button class="remove" onclick="removeFromCart('${name}')">-</button>
+      `;
+      container.appendChild(item);
+    });
+  }
+}
+
+function addToCart(name, price) {
+  if (!cart[name]) cart[name] = { price: price, qty: 0 };
+  cart[name].qty++;
+  document.getElementById("qty-" + name).innerText = cart[name].qty;
+  updateCart();
+}
+
+function removeFromCart(name) {
+  if (cart[name] && cart[name].qty > 0) {
+    cart[name].qty--;
+    document.getElementById("qty-" + name).innerText = cart[name].qty;
+    if (cart[name].qty === 0) delete cart[name];
+    updateCart();
+  }
+}
+
+function updateCart() {
+  const cartItems = document.getElementById("cartItems");
+  cartItems.innerHTML = "";
+  const items = Object.entries(cart);
+  if (items.length === 0) {
+    cartItems.innerText = "لا توجد طلبات بعد.";
+    return;
+  }
+  items.forEach(([name, data]) => {
+    cartItems.innerHTML += `<div>${name} × ${data.qty} = ${data.qty * data.price} د.ل</div>`;
+  });
+}
+
+function openModal() {
+  document.getElementById("orderModal").style.display = "flex";
+}
+
+function submitOrder() {
+  const phone = document.getElementById("phone").value;
+  const address = document.getElementById("address").value;
+  const delivery = document.getElementById("deliveryMethod").value;
+  const table = document.getElementById("tableNumber").value;
+
+if (table && (isNaN(table) || table < 1 || table > 15)) {
+  alert("رقم الطاولة يجب أن يكون بين 1 و 15");
+  return;
+}
+
+
+
+  if (!phone || !address) {
+    alert("يرجى تعبئة كافة الحقول");
+    return;
+  }
+
+  let orderMessage = `طلب جديد:\n`;
+  for (let [name, data] of Object.entries(cart)) {
+    orderMessage += `${name} × ${data.qty} = ${data.qty * data.price} د.ل\n`;
+  }
+  orderMessage += `\nالاجمالي: ${Object.values(cart).reduce((sum, item) => sum + item.qty * item.price, 0)} د.ل`;
+  orderMessage += `\nرقم الهاتف: ${phone}\nالعنوان: ${address}\nطريقة الطلب: ${delivery}`;
+ if (table) orderMessage += `\nرقم الطاولة: ${table}`;
+
+
+  const whatsappUrl = `https://wa.me/218927291013?text=${encodeURIComponent(orderMessage)}`;
+  window.open(whatsappUrl, "_blank");
+  document.getElementById("orderModal").style.display = "none";
+}
+
+renderItems();
+</script>
+
+</body>
+</html>
