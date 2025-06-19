@@ -6,172 +6,206 @@
     <title>مطعم معتز بو عشرين - اطلب الآن!</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* CSS Styling */
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
-
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
             font-family: 'Cairo', sans-serif;
-            margin: 0;
-            padding: 0;
             background: linear-gradient(to bottom, #f8f8f8, #e0e0e0);
             color: #333;
             direction: rtl;
             text-align: right;
             min-height: 100vh;
-            padding-top: 220px; /* مساحة لأعلى الصفحة للهيدر */
+            padding-top: 80px;
             transition: padding-top 0.5s ease;
         }
         
-        /* تعديل عند إخفاء الهيدر */
-        body.header-hidden {
-            padding-top: 20px;
-        }
-
-        /* شريط التمرير المخصص لمتصفحات WebKit */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #a04000;
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #c95d00;
-        }
-
-        /* زر التحكم */
-        .toggle-header-btn {
+        /* زر عرض الأقسام */
+        .categories-toggle-btn {
             position: fixed;
-            top: 15px;
-            left: 15px;
+            top: 20px;
+            left: 20px;
             z-index: 1001;
             background-color: #a04000;
             color: white;
             border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            padding: 12px 20px;
+            border-radius: 30px;
             cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             display: flex;
-            justify-content: center;
             align-items: center;
-            font-size: 1.5em;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            gap: 8px;
             transition: all 0.3s ease;
         }
         
-        .toggle-header-btn:hover {
+        .categories-toggle-btn:hover {
             background-color: #c95d00;
-            transform: scale(1.1);
+            transform: translateY(-2px);
         }
 
-        /* الهيدر الثابت مع تأثير التلاشي */
+        /* الهيدر الثابت */
         .header-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             z-index: 1000;
-            transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.4s ease;
-            opacity: 1;
-            visibility: visible;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            transform: translateY(-100%);
+            opacity: 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
         
-        .header-container.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-            transform: translateY(-20px);
+        .header-container.visible {
+            transform: translateY(0);
+            opacity: 1;
         }
 
         header {
             background-color: #a04000;
             color: white;
-            padding: 20px 0;
+            padding: 15px 0;
             text-align: center;
             position: relative;
         }
 
         header h1 {
             margin: 0;
-            font-size: 2.8em;
+            font-size: 2.2em;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            padding: 10px 0;
-            transition: font-size 0.3s;
+            padding: 5px 0;
         }
 
         .branches {
             background-color: #e67e22;
             color: white;
-            padding: 15px;
+            padding: 12px;
             text-align: center;
-            font-size: 1.1em;
+            font-size: 1em;
         }
 
         .branches p {
-            margin: 5px 0;
+            margin: 3px 0;
             font-weight: bold;
         }
 
         .branches .delivery {
             background-color: #fff;
             color: #a04000;
-            padding: 10px;
+            padding: 8px;
             border-radius: 8px;
-            margin: 10px auto;
-            max-width: 500px;
+            margin: 8px auto;
+            max-width: 90%;
             font-weight: bold;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s;
         }
-
-        nav {
-            background-color: #7a3200;
-            padding: 10px 0;
-            text-align: center;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-            overflow-x: auto;
-            white-space: nowrap;
-            padding-bottom: 5px;
+        
+        /* نافذة الأقسام */
+        .categories-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
         }
-
-        .nav-button {
-            background-color: #c95d00;
+        
+        .categories-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .categories-content {
+            background-color: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            transform: translateY(30px);
+            transition: transform 0.4s ease;
+        }
+        
+        .categories-modal.active .categories-content {
+            transform: translateY(0);
+        }
+        
+        .categories-header {
+            background-color: #a04000;
             color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+        
+        .categories-header h2 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+        
+        .close-categories {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: none;
             border: none;
-            padding: 12px 25px;
-            margin: 0 8px;
-            border-radius: 25px;
+            color: white;
+            font-size: 1.8em;
             cursor: pointer;
-            font-size: 1.15em;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            flex-shrink: 0;
+            transition: transform 0.3s ease;
         }
-
-        .nav-button:hover {
-            background-color: #e67e22;
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        
+        .close-categories:hover {
+            transform: rotate(90deg);
         }
-
-        .nav-button.active {
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            padding: 25px;
+        }
+        
+        .category-btn {
+            background-color: #f5f5f5;
+            border: 2px solid #e67e22;
+            border-radius: 10px;
+            padding: 15px 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #a04000;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .category-btn:hover {
             background-color: #e67e22;
-            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.7), 0 4px 10px rgba(0, 0, 0, 0.3);
-            transform: scale(1.05);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(230, 126, 34, 0.3);
+        }
+        
+        .category-btn.active {
+            background-color: #a04000;
+            color: white;
+            border-color: #a04000;
         }
 
         main {
@@ -208,9 +242,9 @@
         .product-category h2 {
             text-align: center;
             color: #a04000;
-            margin-bottom: 35px;
-            font-size: 2.2em;
-            padding-top: 15px;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+            padding-top: 10px;
             border-bottom: 2px solid #e67e22;
             display: inline-block;
             padding-bottom: 5px;
@@ -222,12 +256,12 @@
             background-color: #f9f9f9;
             border: 1px solid #eee;
             border-radius: 12px;
-            padding: 25px;
+            padding: 20px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             align-self: flex-start;
             position: -webkit-sticky;
             position: sticky;
-            top: 90px;
+            top: 100px;
             max-height: calc(100vh - 120px);
             overflow-y: auto;
         }
@@ -237,13 +271,13 @@
             margin-top: 0;
             border-bottom: 2px solid #28a745;
             padding-bottom: 5px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         #cart-items {
             list-style: none;
             padding: 0;
-            margin: 15px 0;
+            margin: 10px 0;
             max-height: 300px;
             overflow-y: auto;
         }
@@ -252,7 +286,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
+            padding: 8px 0;
             border-bottom: 1px dashed #ddd;
             font-size: 1.05em;
         }
@@ -262,13 +296,13 @@
         }
 
         #cart-total {
-            font-size: 1.6em;
+            font-size: 1.5em;
             font-weight: bold;
             text-align: left;
-            margin-top: 25px;
+            margin-top: 20px;
             color: #a04000;
             border-top: 2px solid #e67e22;
-            padding-top: 15px;
+            padding-top: 12px;
         }
         
         .add-to-cart-btn {
@@ -279,7 +313,7 @@
             border-radius: 8px;
             cursor: pointer;
             font-size: 1.1em;
-            margin-top: 20px;
+            margin-top: 15px;
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
@@ -300,9 +334,9 @@
             color: white;
             border: none;
             border-radius: 50%;
-            width: 28px;
-            height: 28px;
-            font-size: 0.9em;
+            width: 25px;
+            height: 25px;
+            font-size: 0.8em;
             cursor: pointer;
             margin-right: 8px;
             flex-shrink: 0;
@@ -317,12 +351,12 @@
             background-color: #007bff;
             color: white;
             border: none;
-            padding: 15px 25px;
+            padding: 12px 20px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 1.2em;
+            font-size: 1.1em;
             width: 100%;
-            margin-top: 20px;
+            margin-top: 15px;
             transition: background-color 0.3s ease, transform 0.2s ease;
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
         }
@@ -340,8 +374,8 @@
 
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
             justify-content: center;
         }
 
@@ -349,7 +383,7 @@
             background-color: #fff;
             border: 1px solid #ddd;
             border-radius: 12px;
-            padding: 25px;
+            padding: 20px;
             text-align: center;
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
@@ -360,22 +394,25 @@
         }
 
         .product-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
 
         .product-card h3 {
             color: #333;
-            font-size: 1.6em;
-            margin-bottom: 12px;
+            font-size: 1.4em;
+            margin-bottom: 10px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .product-card p.price {
             color: #e67e22;
-            font-size: 2em;
+            font-size: 1.8em;
             font-weight: bold;
-            margin-top: 18px;
-            margin-bottom: 18px;
+            margin: 12px 0;
             letter-spacing: 0.5px;
         }
 
@@ -651,28 +688,6 @@
             background-color: #128C7E;
         }
 
-        .scroll-indicator {
-            position: fixed;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #a04000;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            z-index: 1002;
-            display: none;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
-            40% {transform: translateX(-50%) translateY(-10px);}
-            60% {transform: translateX(-50%) translateY(-5px);}
-        }
-
         @media (max-width: 1200px) {
             .table-grid {
                 grid-template-columns: repeat(4, 1fr);
@@ -685,11 +700,7 @@
             }
             
             body {
-                padding-top: 200px;
-            }
-            
-            body.header-hidden {
-                padding-top: 20px;
+                padding-top: 70px;
             }
         }
 
@@ -697,36 +708,35 @@
             main {
                 flex-direction: column;
                 padding: 15px;
+                gap: 20px;
             }
             #products-container, #cart-section {
                 min-width: unset;
                 width: 100%;
                 position: static;
                 max-height: unset;
-                padding: 20px;
+                padding: 15px;
             }
-            .nav-button {
-                display: block;
-                margin: 10px auto;
-                width: 90%;
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             }
             header h1 {
-                font-size: 2em;
-            }
-            .product-category h2 {
                 font-size: 1.8em;
             }
-            .product-card {
-                padding: 20px;
-            }
-            .product-card h3 {
-                font-size: 1.3em;
-            }
-            .product-card p.price {
+            .product-category h2 {
                 font-size: 1.6em;
             }
+            .product-card {
+                padding: 15px;
+            }
+            .product-card h3 {
+                font-size: 1.2em;
+            }
+            .product-card p.price {
+                font-size: 1.5em;
+            }
             #cart-section {
-                top: 20px;
+                top: 80px;
             }
             
             .modal-content {
@@ -737,20 +747,10 @@
                 grid-template-columns: repeat(3, 1fr);
             }
             
-            body {
-                padding-top: 180px;
-            }
-            
-            body.header-hidden {
-                padding-top: 20px;
-            }
-            
-            header h1 {
-                font-size: 1.8em;
-            }
-            
-            .branches {
-                padding: 10px;
+            .categories-toggle-btn {
+                top: 15px;
+                left: 15px;
+                padding: 10px 15px;
                 font-size: 1em;
             }
         }
@@ -771,40 +771,30 @@
             }
             
             body {
-                padding-top: 160px;
+                padding-top: 60px;
             }
             
-            body.header-hidden {
-                padding-top: 20px;
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 15px;
             }
             
-            header h1 {
-                font-size: 1.6em;
+            .category-btn {
+                padding: 12px 8px;
+                font-size: 1em;
             }
             
             .branches .delivery {
-                padding: 8px;
                 font-size: 0.9em;
-            }
-            
-            .toggle-header-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2em;
             }
         }
     </style>
 </head>
 <body>
-    <!-- زر التحكم في إخفاء وإظهار الهيدر -->
-    <button class="toggle-header-btn" id="toggleHeaderBtn">
-        <i class="fas fa-eye"></i>
+    <!-- زر عرض الأقسام -->
+    <button class="categories-toggle-btn" id="toggleCategoriesBtn">
+        <i class="fas fa-bars"></i> عرض الاقسام
     </button>
-
-    <!-- مؤشر التمرير -->
-    <div class="scroll-indicator" id="scrollIndicator">
-        اسحب للأعلى لإظهار الهيدر
-    </div>
 
     <!-- الهيدر الثابت مع شريط الأقسام -->
     <div class="header-container" id="headerContainer">
@@ -823,17 +813,25 @@
                 <p>مطعم معتز بوعشرين في انتضاركم 🤗〽️</p>
             </div>
         </div>
-        
-        <!-- شريط الأقسام - تم دمجه مع الهيدر -->
-        <nav>
-            <button class="nav-button active" data-category="boxes">بوكسات</button>
-            <button class="nav-button" data-category="pizzas">بيتزا</button>
-            <button class="nav-button" data-category="maqlooba">مقلوبة</button>
-            <button class="nav-button" data-category="grilled_meals">مشويات ووجبات</button>
-            <button class="nav-button" data-category="sandwiches">ساندويتشات وأخرى</button>
-            <button class="nav-button" data-category="extra_meals">الوجبات الإضافية</button>
-            <button class="nav-button" data-category="extras">الإضافات</button>
-        </nav>
+    </div>
+
+    <!-- نافذة الأقسام -->
+    <div class="categories-modal" id="categoriesModal">
+        <div class="categories-content">
+            <div class="categories-header">
+                <button class="close-categories" id="closeCategories">&times;</button>
+                <h2>أقسام الطعام</h2>
+            </div>
+            <div class="categories-grid">
+                <button class="category-btn" data-category="boxes">بوكسات</button>
+                <button class="category-btn" data-category="pizzas">بيتزا</button>
+                <button class="category-btn" data-category="maqlooba">مقلوبة</button>
+                <button class="category-btn" data-category="grilled_meals">مشويات ووجبات</button>
+                <button class="category-btn" data-category="sandwiches">ساندويتشات وأخرى</button>
+                <button class="category-btn" data-category="extra_meals">الوجبات الإضافية</button>
+                <button class="category-btn" data-category="extras">الإضافات</button>
+            </div>
+        </div>
     </div>
 
     <main>
@@ -881,7 +879,6 @@
                 <div class="table-selection" id="tableSelection">
                     <p>اختر رقم الطاولة (متاحة 15 طاولة):</p>
                     <div class="table-grid">
-                        <!-- تمت زيادة عدد الطاولات إلى 15 -->
                         <button class="table-btn" data-table="1">1</button>
                         <button class="table-btn" data-table="2">2</button>
                         <button class="table-btn" data-table="3">3</button>
@@ -1028,17 +1025,17 @@
             let cart = [];
             let selectedTable = null;
             let lastScrollTop = 0;
-            let headerVisible = true;
 
             const productsContainer = document.getElementById('products-container');
-            const navButtons = document.querySelectorAll('.nav-button');
             const cartItemsList = document.getElementById('cart-items');
             const cartTotalElement = document.getElementById('cart-total');
             const checkoutBtn = document.getElementById('checkout-btn');
             const loadingSpinner = document.querySelector('.loading-spinner');
             const headerContainer = document.getElementById('headerContainer');
-            const scrollIndicator = document.getElementById('scrollIndicator');
-            const toggleHeaderBtn = document.getElementById('toggleHeaderBtn');
+            const toggleCategoriesBtn = document.getElementById('toggleCategoriesBtn');
+            const categoriesModal = document.getElementById('categoriesModal');
+            const closeCategories = document.getElementById('closeCategories');
+            const categoryBtns = document.querySelectorAll('.category-btn');
             
             // عناصر نافذة تأكيد الطلب
             const confirmationModal = document.getElementById('confirmationModal');
@@ -1051,42 +1048,25 @@
             const sendOrder = document.getElementById('sendOrder');
             const confirmationMessage = document.getElementById('confirmationMessage');
 
-            // وظيفة التحكم في إخفاء وإظهار الهيدر
-            function toggleHeader() {
-                headerVisible = !headerVisible;
-                
-                if (headerVisible) {
-                    headerContainer.classList.remove('hidden');
-                    document.body.classList.remove('header-hidden');
-                    toggleHeaderBtn.innerHTML = '<i class="fas fa-eye"></i>';
-                } else {
-                    headerContainer.classList.add('hidden');
-                    document.body.classList.add('header-hidden');
-                    toggleHeaderBtn.innerHTML = '<i class="fas fa-eye-slash"></i>';
-                }
-            }
-
-            // إدارة التمرير لإظهار/إخفاء الهيدر وشريط الأقسام
+            // إدارة التمرير لإظهار الرأس فقط في أعلى الصفحة
             window.addEventListener('scroll', () => {
-                if (!headerVisible) return;
-                
                 const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 
-                if (scrollTop > lastScrollTop && scrollTop > 100) {
-                    // التمرير لأسفل - إخفاء الهيدر وشريط الأقسام
-                    headerContainer.classList.add('hidden');
-                    if (scrollTop > 300) {
-                        scrollIndicator.style.display = 'block';
-                    }
-                } else if (scrollTop < lastScrollTop - 10) {
-                    // التمرير لأعلى - إظهار الهيدر وشريط الأقسام
-                    headerContainer.classList.remove('hidden');
-                    scrollIndicator.style.display = 'none';
+                if (scrollTop === 0) {
+                    headerContainer.classList.add('visible');
+                } else {
+                    headerContainer.classList.remove('visible');
                 }
                 
                 lastScrollTop = scrollTop;
             });
 
+            // فتح وإغلاق نافذة الأقسام
+            function toggleCategoriesModal() {
+                categoriesModal.classList.toggle('active');
+            }
+
+            // إنشاء فئات المنتجات
             function createProductCategories() {
                 loadingSpinner.style.display = 'block';
                 productsContainer.innerHTML = ''; 
@@ -1144,7 +1124,8 @@
                     activeCategoryDiv.classList.add('active');
                 }
 
-                navButtons.forEach(button => {
+                // تحديث أزرار الأقسام
+                categoryBtns.forEach(button => {
                     button.classList.remove('active');
                     if (button.dataset.category === categoryName) {
                         button.classList.add('active');
@@ -1290,7 +1271,7 @@
                 
                 message += `%0Aالإجمالي: ${document.getElementById('cart-total').textContent}%0A`;
                 
-                // إنشاء رابط واتساب (باستخدام الرقم الجديد)
+                // إنشاء رابط واتساب
                 const whatsappUrl = `https://wa.me/218921835737?text=${message}`;
                 
                 // فتح الرابط في نافذة جديدة
@@ -1305,13 +1286,6 @@
             }
 
             // أحداث الصفحة
-            navButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const category = button.dataset.category;
-                    showCategory(category);
-                });
-            });
-
             productsContainer.addEventListener('click', (event) => {
                 if (event.target.classList.contains('add-to-cart-btn')) {
                     const productId = parseInt(event.target.dataset.id);
@@ -1347,7 +1321,7 @@
                 }
             });
             
-            // إضافة الأحداث لأزرار الطاولات (بما أننا أضفنا طاولات ديناميكيًا)
+            // إضافة الأحداث لأزرار الطاولات
             document.addEventListener('click', (e) => {
                 if (e.target.classList.contains('table-btn')) {
                     const tableNumber = e.target.dataset.table;
@@ -1367,14 +1341,29 @@
                 if (e.target === confirmationMessage) {
                     confirmationMessage.classList.remove('active');
                 }
+                if (e.target === categoriesModal) {
+                    toggleCategoriesModal();
+                }
             });
             
-            // حدث التحكم في إخفاء وإظهار الهيدر
-            toggleHeaderBtn.addEventListener('click', toggleHeader);
+            // أحداث نافذة الأقسام
+            toggleCategoriesBtn.addEventListener('click', toggleCategoriesModal);
+            closeCategories.addEventListener('click', toggleCategoriesModal);
+            
+            categoryBtns.forEach(button => {
+                button.addEventListener('click', () => {
+                    const category = button.dataset.category;
+                    showCategory(category);
+                    toggleCategoriesModal();
+                });
+            });
 
             // Initialization
             createProductCategories();
             updateCart();
+            
+            // إظهار الرأس في البداية
+            headerContainer.classList.add('visible');
         });
     </script>
 </body>
