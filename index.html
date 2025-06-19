@@ -1,308 +1,1204 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مطعم معتز بو عشرين - اطلب الآن!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Styling */
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
 
-  <title>مطعم معتز</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      direction: rtl;
-      margin: 0;
-      padding: 0;
-      background: #f7f7f7;
-    }
-    header {
-      background-color: #c0392b;
-      color: white;
-      text-align: center;
-      padding: 20px;
-    }
-    .section {
-      padding: 20px;
-      border-bottom: 1px solid #ddd;
-    }
-    .section h2 {
-      color: #c0392b;
-    }
-    .items {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-}
-    .item {
-      background: white;
-  padding: 10px;
-  border: 1px solid #ccc;
-  width: 100%;
-  max-width: 200px;
-  text-align: center;
-  border-radius: 10px;
-  box-sizing: border-box;
-    }
-    .item button {
-      background: #27ae60;
-      color: white;
-      border: none;
-      padding: 5px 10px;
-      cursor: pointer;
-      border-radius: 5px;
-      margin: 0 2px;
-    }
-    .item .remove {
-      background: #e74c3c;
-    }
-    .cart {
-     background: #ecf0f1;
-  padding: 20px;
-  text-align: center;
-  box-sizing: border-box;
-    }
-    .cart-items {
-      margin-top: 10px;
-    }
-    .quantity-box {
-      display: inline-block;
-      width: 30px;
-      text-align: center;
-      font-weight: bold;
-    }
-    .confirm-button {
-      background: #2980b9;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      margin-top: 20px;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-    }
-    .modal-content {
-      background: white;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-  width: 90%;
-  max-width: 300px;
-    }
-    .modal-content input, .modal-content select {
-      width: 100%;
-      margin-bottom: 10px;
-      padding: 8px;
-      box-sizing: border-box;
-    }
+        body {
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #f8f8f8, #e0e0e0);
+            color: #333;
+            direction: rtl;
+            text-align: right;
+            min-height: 100vh;
+        }
 
-    @media screen and (max-width: 600px) {
-      .items {
-        flex-direction: column;
-        align-items: center;
-      }
-      .item {
-        width: 90%;
-      }
-      .modal-content {
-        width: 90%;
-      }
-    }
-  </style>
+        /* شريط التمرير المخصص لمتصفحات WebKit */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #a04000;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c95d00;
+        }
+
+        header {
+            background-color: #a04000;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.8em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            padding: 10px 0;
+        }
+
+        .branches {
+            background-color: #e67e22;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.1em;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .branches p {
+            margin: 5px 0;
+            font-weight: bold;
+        }
+
+        .branches .delivery {
+            background-color: #fff;
+            color: #a04000;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px auto;
+            max-width: 500px;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            background-color: #7a3200;
+            padding: 10px 0;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-bottom: 5px;
+        }
+
+        .nav-button {
+            background-color: #c95d00;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            margin: 0 8px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.15em;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
+        }
+
+        .nav-button:hover {
+            background-color: #e67e22;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-button.active {
+            background-color: #e67e22;
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.7), 0 4px 10px rgba(0, 0, 0, 0.3);
+            transform: scale(1.05);
+        }
+
+        main {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        #products-container {
+            flex: 3;
+            min-width: 650px;
+            position: relative;
+        }
+
+        .product-category {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        .product-category.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .product-category h2 {
+            text-align: center;
+            color: #a04000;
+            margin-bottom: 35px;
+            font-size: 2.2em;
+            padding-top: 15px;
+            border-bottom: 2px solid #e67e22;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        #cart-section {
+            flex: 1;
+            min-width: 300px;
+            background-color: #f9f9f9;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            align-self: flex-start;
+            position: -webkit-sticky;
+            position: sticky;
+            top: 90px;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+
+        #cart-section h2 {
+            color: #28a745;
+            margin-top: 0;
+            border-bottom: 2px solid #28a745;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+        }
+
+        #cart-items {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        #cart-items li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dashed #ddd;
+            font-size: 1.05em;
+        }
+
+        #cart-items li:last-child {
+            border-bottom: none;
+        }
+
+        #cart-total {
+            font-size: 1.6em;
+            font-weight: bold;
+            text-align: left;
+            margin-top: 25px;
+            color: #a04000;
+            border-top: 2px solid #e67e22;
+            padding-top: 15px;
+        }
+        
+        .add-to-cart-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-top: 20px;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .add-to-cart-btn.added {
+            background-color: #007bff;
+            animation: pulse 0.5s 1;
+        }
+
+        .remove-item {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            font-size: 0.9em;
+            cursor: pointer;
+            margin-right: 8px;
+            flex-shrink: 0;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+        .remove-item:hover {
+            background-color: #c82333;
+            transform: scale(1.1);
+        }
+
+        #checkout-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            width: 100%;
+            margin-top: 20px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        #checkout-btn:hover:not([disabled]) {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        #checkout-btn[disabled] {
+            opacity: 0.5;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .product-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-card h3 {
+            color: #333;
+            font-size: 1.6em;
+            margin-bottom: 12px;
+        }
+
+        .product-card p.price {
+            color: #e67e22;
+            font-size: 2em;
+            font-weight: bold;
+            margin-top: 18px;
+            margin-bottom: 18px;
+            letter-spacing: 0.5px;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .developer {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #e67e22;
+        }
+
+        .loading-spinner {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #a04000;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 50px auto;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .confirmation-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .confirmation-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        
+        .confirmation-modal.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        .modal-header {
+            background-color: #a04000;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+        
+        .modal-body {
+            padding: 25px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-family: 'Cairo', sans-serif;
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #a04000;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(160, 64, 0, 0.2);
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .checkbox-group input {
+            width: auto;
+            margin-left: 10px;
+        }
+        
+        .table-selection {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+        
+        .table-selection.active {
+            display: block;
+        }
+        
+        .table-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .table-btn {
+            background-color: #e0e0e0;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .table-btn:hover {
+            background-color: #d0d0d0;
+        }
+        
+        .table-btn.selected {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .modal-footer {
+            padding: 15px 25px;
+            background-color: #f8f8f8;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .send-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        
+        .send-btn:hover {
+            background-color: #218838;
+        }
+        
+        .cancel-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        
+        .cancel-btn:hover {
+            background-color: #c82333;
+        }
+        
+        .confirmation-message {
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .confirmation-message h3 {
+            color: #28a745;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+        
+        .confirmation-message p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .phone-number {
+            background-color: #e9f7ef;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            color: #218838;
+            font-size: 1.3em;
+            display: inline-block;
+            margin: 15px 0;
+        }
+
+        .whatsapp-link {
+            display: inline-block;
+            background-color: #25D366;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .whatsapp-link:hover {
+            background-color: #128C7E;
+        }
+
+        @media (max-width: 1200px) {
+            .table-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .table-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            main {
+                flex-direction: column;
+                padding: 15px;
+            }
+            #products-container, #cart-section {
+                min-width: unset;
+                width: 100%;
+                position: static;
+                max-height: unset;
+                padding: 20px;
+            }
+            nav {
+                padding: 10px 5px;
+            }
+            .nav-button {
+                display: block;
+                margin: 10px auto;
+                width: 90%;
+            }
+            header h1 {
+                font-size: 2em;
+            }
+            .product-category h2 {
+                font-size: 1.8em;
+            }
+            .product-card {
+                padding: 20px;
+            }
+            .product-card h3 {
+                font-size: 1.3em;
+            }
+            .product-card p.price {
+                font-size: 1.6em;
+            }
+            #cart-section {
+                top: 20px;
+            }
+            
+            .modal-content {
+                width: 95%;
+            }
+            
+            .table-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .table-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .modal-body {
+                padding: 15px;
+                max-height: 60vh;
+            }
+            
+            .table-btn {
+                padding: 10px;
+                font-size: 1em;
+            }
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <h1>مطعم معتز بو عشرين</h1>
+    </header>
+    
+    <div class="branches">
+        <p>📍 شبنه - الطريق الدائري الرابع</p>
+        <p>📍 سيدي خليفة - طريق الساحل</p>
+        <p>📍 الصابري - الزريريعية</p>
+        <div class="delivery">
+            <p>______</p>
+            <p>لطلب الدليفري: 0921835737 📞</p>
+            <p>خدمه العملاء: 0930066552 ☎️</p>
+            <p>مطعم معتز بوعشرين في انتضاركم 🤗〽️</p>
+        </div>
+    </div>
 
-<header>
-  <h1>مرحباً بكم في مطعم معتز</h1>
-</header>
+    <nav>
+        <button class="nav-button active" data-category="boxes">بوكسات</button>
+        <button class="nav-button" data-category="pizzas">بيتزا</button>
+        <button class="nav-button" data-category="maqlooba">مقلوبة</button>
+        <button class="nav-button" data-category="grilled_meals">مشويات ووجبات</button>
+        <button class="nav-button" data-category="sandwiches">ساندويتشات وأخرى</button>
+        <button class="nav-button" data-category="extra_meals">الوجبات الإضافية</button>
+        <button class="nav-button" data-category="extras">الإضافات</button>
+    </nav>
 
-<div class="section" id="section1"><h2>الوجبات</h2><div class="items" id="items1"></div></div>
-<div class="section" id="section2"><h2>السندوتشات</h2><div class="items" id="items2"></div></div>
-<div class="section" id="section3"><h2>البيتزا</h2><div class="items" id="items3"></div></div>
-<div class="section" id="section7"><h2>بيتزا حجم كبير</h2><div class="items" id="items7"></div></div>
-<div class="section" id="section4"><h2>بوكسات معتز</h2><div class="items" id="items4"></div></div>
-<div class="section" id="section5"><h2>الوجبات الإضافية</h2><div class="items" id="items5"></div></div>
-<div class="section" id="section6"><h2>الإضافات</h2><div class="items" id="items6"></div></div>
+    <main>
+        <section id="products-container">
+            <div class="loading-spinner"></div>
+        </section>
 
-<div class="cart">
-  <h2>سلة الطلبات</h2>
-  <div class="cart-items" id="cartItems">لا توجد طلبات بعد.</div>
-  <button class="confirm-button" onclick="openModal()">تأكيد الطلب</button>
-</div>
+        <section id="cart-section">
+            <h2>سلة التسوق</h2>
+            <ul id="cart-items"></ul>
+            <p id="cart-total">الإجمالي: 0.00 د.ل</p>
+            <button class="add-to-cart-btn" id="checkout-btn">تأكيد الطلب</button>
+        </section>
+    </main>
 
-<div class="modal" id="orderModal">
-  <div class="modal-content">
-    <h3>معلومات الطلب</h3>
-    <input type="text" id="phone" placeholder="رقم الهاتف">
-    <input type="text" id="address" placeholder="الموقع الحالي أو مكان السكن">
-    <select id="deliveryMethod">
-      <option value="توصيل">توصيل</option>
-      <option value="تناول في المطعم">تناول في المطعم</option>
-    </select>
-    <input type="number" id="tableNumber" placeholder="أدخل رقم الطاولة (من 1 إلى 15)" min="1" max="15">
-<small>ملاحظة: يوجد 15 طاولة فقط</small>
+    <footer>
+        <div class="footer-content">
+            <p class="developer">المطور: أيوب العوامي</p>
+        </div>
+    </footer>
+    
+    <!-- نافذة تأكيد الطلب -->
+    <div class="confirmation-modal" id="confirmationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close-modal" id="closeModal">&times;</button>
+                <h2>تأكيد الطلب</h2>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="phoneNumber">رقم الهاتف:</label>
+                    <input type="tel" id="phoneNumber" placeholder="أدخل رقم هاتفك" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">عنوان السكن:</label>
+                    <input type="text" id="address" placeholder="أدخل عنوان السكن" required>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="reserveTable">
+                    <label for="reserveTable">هل تود حجز طاولة؟</label>
+                </div>
+                
+                <div class="table-selection" id="tableSelection">
+                    <p>اختر رقم الطاولة (متاحة 15 طاولة):</p>
+                    <div class="table-grid">
+                        <!-- تمت زيادة عدد الطاولات إلى 15 -->
+                        <button class="table-btn" data-table="1">1</button>
+                        <button class="table-btn" data-table="2">2</button>
+                        <button class="table-btn" data-table="3">3</button>
+                        <button class="table-btn" data-table="4">4</button>
+                        <button class="table-btn" data-table="5">5</button>
+                        <button class="table-btn" data-table="6">6</button>
+                        <button class="table-btn" data-table="7">7</button>
+                        <button class="table-btn" data-table="8">8</button>
+                        <button class="table-btn" data-table="9">9</button>
+                        <button class="table-btn" data-table="10">10</button>
+                        <button class="table-btn" data-table="11">11</button>
+                        <button class="table-btn" data-table="12">12</button>
+                        <button class="table-btn" data-table="13">13</button>
+                        <button class="table-btn" data-table="14">14</button>
+                        <button class="table-btn" data-table="15">15</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="cancel-btn" id="cancelOrder">إلغاء</button>
+                <button class="send-btn" id="sendOrder">إرسال الطلب</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- رسالة التأكيد بعد الإرسال -->
+    <div class="confirmation-modal" id="confirmationMessage">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>تم إرسال طلبك بنجاح!</h2>
+            </div>
+            <div class="confirmation-message">
+                <h3>شكرًا لطلبك من مطعم معتز بو عشرين</h3>
+                <p>تم إرسال تفاصيل طلبك إلى رقم الهاتف التالي:</p>
+                <div class="phone-number">0921835737</div>
+                <p>سنتصل بك قريبًا لتأكيد الطلب وتحديد وقت التوصيل.</p>
+                <a href="https://wa.me/218921835737" class="whatsapp-link" target="_blank">
+                    <i class="fab fa-whatsapp"></i> تواصل معنا عبر واتساب
+                </a>
+            </div>
+        </div>
+    </div>
 
-    <button onclick="submitOrder()">تأكيد</button>
-  </div>
-</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const products = [
+                // بوكسات معتز
+                { id: 1, name: "كومبو بالمشروب", price: 15.00, category: "boxes" },
+                { id: 2, name: "بوكس بورجر", price: 12.00, category: "boxes" },
+                { id: 3, name: "بوكس توستر", price: 12.00, category: "boxes" },
+                { id: 4, name: "بوكس كرسبي", price: 12.00, category: "boxes" },
+                { id: 5, name: "بوكس بانيه", price: 12.00, category: "boxes" },
+                { id: 6, name: "بوكس ميني زينجر", price: 12.00, category: "boxes" },
+                { id: 7, name: "بوكس كباب", price: 12.00, category: "boxes" },
+                { id: 8, name: "بوكس طابونة", price: 12.00, category: "boxes" },
+                { id: 9, name: "بوكس مكسكانو", price: 12.00, category: "boxes" },
+                { id: 10, name: "بوكس السعادة", price: 50.00, category: "boxes" },
+                { id: 11, name: "بوكس معتز", price: 60.00, category: "boxes" },
+                // البيتزا (صغير/عادي)
+                { id: 12, name: "بيتزا مارجريتا", price: 18.00, category: "pizzas" },
+                { id: 13, name: "بيتزا حارة", price: 18.00, category: "pizzas" },
+                { id: 14, name: "بيتزا تن", price: 20.00, category: "pizzas" },
+                { id: 15, name: "بيتزا خضروات", price: 18.00, category: "pizzas" },
+                { id: 16, name: "بيتزا دجاج", price: 20.00, category: "pizzas" },
+                { id: 17, name: "بيتزا مفروم", price: 20.00, category: "pizzas" },
+                { id: 18, name: "بيتزا فطر", price: 18.00, category: "pizzas" },
+                { id: 19, name: "بيتزا معتز", price: 20.00, category: "pizzas" },
+                // المقلوبة
+                { id: 20, name: "مقلوبة دجاج", price: 18.00, category: "maqlooba" },
+                { id: 21, name: "مقلوبة مفروم", price: 18.00, category: "maqlooba" },
+                { id: 22, name: "مقلوبة جبنة", price: 18.00, category: "maqlooba" },
+                // المشويات والوجبات
+                { id: 23, name: "نصف دجاج مشوي على الفحم", price: 20.00, category: "grilled_meals" },
+                { id: 24, name: "نصف دجاج مشوي ساده", price: 15.00, category: "grilled_meals" },
+                { id: 25, name: "وجبة بانيه 3 قطع", price: 25.00, category: "grilled_meals" },
+                { id: 26, name: "وجبة هامبورجر 3 قطع", price: 25.00, category: "grilled_meals" },
+                { id: 27, name: "وجبة كبدة جريل", price: 35.00, category: "grilled_meals" },
+                { id: 28, name: "وجبة شيش 3 أسياخ", price: 25.00, category: "grilled_meals" },
+                { id: 29, name: "وجبة كباب لحم 3 أسياخ", price: 25.00, category: "grilled_meals" },
+                { id: 30, name: "وجبة كباب دجاج 3 أسياخ", price: 22.00, category: "grilled_meals" },
+                { id: 31, name: "وجبة توستر 7 قطع", price: 20.00, category: "grilled_meals" },
+                { id: 32, name: "وجبة زنجر", price: 20.00, category: "grilled_meals" },
+                { id: 33, name: "وجبة إستربس 5 قطع", price: 18.00, category: "grilled_meals" },
+                { id: 34, name: "وجبة إستربس 8 قطع", price: 28.00, category: "grilled_meals" },
+                { id: 35, name: "وجبة أطفال", price: 15.00, category: "grilled_meals" },
+                { id: 36, name: "وجبة كبده على الفحم", price: 50.00, category: "grilled_meals" },
+                { id: 37, name: "وجبة معتز", price: 30.00, category: "grilled_meals" },
+                // ساندويتشات وأخرى
+                { id: 38, name: "هامبورجر لحم", price: 9.00, category: "sandwiches" },
+                { id: 39, name: "كباب لحم", price: 9.00, category: "sandwiches" },
+                { id: 40, name: "شيش طاووق بانيه", price: 9.00, category: "sandwiches" },
+                { id: 41, name: "بانيه", price: 9.00, category: "sandwiches" },
+                { id: 42, name: "زنجر معتز", price: 10.00, category: "sandwiches" },
+                { id: 43, name: "توستر", price: 9.00, category: "sandwiches" },
+                { id: 44, name: "طابونه", price: 9.00, category: "sandwiches" },
+                { id: 45, name: "مكسكانو", price: 9.00, category: "sandwiches" },
+                { id: 46, name: "هامبورجر دبل", price: 13.00, category: "sandwiches" },
+                { id: 47, name: "بانيه دبل", price: 13.00, category: "sandwiches" },
+                { id: 48, name: "كبده", price: 10.00, category: "sandwiches" },
+                { id: 49, name: "إستيك دجاج", price: 9.00, category: "sandwiches" },
+                { id: 50, name: "توستر صاروخ", price: 12.00, category: "sandwiches" },
+                { id: 51, name: "مايتي زنجر", price: 12.00, category: "sandwiches" },
+                { id: 52, name: "لافينو", price: 12.00, category: "sandwiches" },
+                { id: 53, name: "كرسبي", price: 9.00, category: "sandwiches" },
+                { id: 54, name: "كباب دجاج", price: 9.00, category: "sandwiches" },
+                { id: 55, name: "هامبورجر دجاج", price: 9.00, category: "sandwiches" },
+                // البيتزا حجم كبير
+                { id: 56, name: "بيتزا مارجريتا (كبير)", price: 20.00, category: "pizzas" },
+                { id: 57, name: "بيتزا حارة (كبير)", price: 20.00, category: "pizzas" },
+                { id: 58, name: "بيتزا تن (كبير)", price: 22.00, category: "pizzas" },
+                { id: 59, name: "بيتزا خضروات (كبير)", price: 20.00, category: "pizzas" },
+                { id: 60, name: "بيتزا دجاج (كبير)", price: 22.00, category: "pizzas" },
+                { id: 61, name: "بيتزا مفروم (كبير)", price: 22.00, category: "pizzas" },
+                { id: 62, name: "بيتزا فقاع (كبير)", price: 20.00, category: "pizzas" },
+                { id: 63, name: "بيتزا معتز (كبير)", price: 25.00, category: "pizzas" },
+                // الوجبات الإضافية (القسم الجديد الأول)
+                { id: 64, name: "وجبة 1: بطاطة -سلاطة - خبزة - كول سلو + 3 قطع كنتاكي", price: 18.00, category: "extra_meals" },
+                { id: 65, name: "وجبة 2: بطاطة - سلاطة - خبزه - أرز كول سلو + 12 قطعة كنتاكي", price: 57.00, category: "extra_meals" },
+                { id: 66, name: "وجبة 3: بطاطة - سلاطة - خبزة - كول سلو + 5 قطع ستربس", price: 15.00, category: "extra_meals" },
+                { id: 67, name: "وجبة 4: بطاطة - سلاطه - خبزة - أرز كول سلو + 6 قطع كنتاكي", price: 37.00, category: "extra_meals" },
+                { id: 68, name: "وجبة 5: بطاطة - سلاطه - خبزة - أرز كول سلو + 15 قطعة كنتاكي", price: 76.00, category: "extra_meals" },
+                { id: 69, name: "وجبة 6: شيش - كباب - توستر", price: 15.00, category: "extra_meals" },
+                { id: 70, name: "وجبة 7: بطاطة - سلاطه - خبزة - أرز كول سلو+ 9 قطع كنتاكي", price: 47.00, category: "extra_meals" },
+                { id: 71, name: "وجبة 8: بطاطه - صوص - مخلل + بوكس توستر", price: 15.00, category: "extra_meals" },
+                { id: 72, name: "وجبة 9: بطاطة - سلاطه - خبزة - أرز كول سلو + 8 قطع ستربس", price: 20.00, category: "extra_meals" },
+                // الإضافات (القسم الجديد الثاني)
+                { id: 73, name: "طبق بطاطا صغير", price: 3.00, category: "extras" },
+                { id: 74, name: "طبق بطاطا وسط", price: 5.00, category: "extras" },
+                { id: 75, name: "طبق بطاطا كبير", price: 10.00, category: "extras" },
+                { id: 76, name: "طرف كنتاكي", price: 4.00, category: "extras" },
+                { id: 77, name: "سندوتش فلافل", price: 3.00, category: "extras" },
+                { id: 78, name: "سلاطة كول سلو", price: 2.00, category: "extras" },
+                { id: 79, name: "كاتشب - مايونيز - صوص حار", price: 2.00, category: "extras" },
+                { id: 80, name: "أرز", price: 3.00, category: "extras" },
+                { id: 81, name: "سندوتش فول", price: 3.00, category: "extras" },
+                { id: 82, name: "5 قطع فلافل", price: 1.00, category: "extras" },
+                { id: 83, name: "طبق مخلل", price: 3.00, category: "extras" },
+                { id: 84, name: "سندوتش مشكل", price: 4.00, category: "extras" },
+                { id: 85, name: "طعمية بالبيض", price: 4.00, category: "extras" },
+                { id: 86, name: "طبق فول صغير", price: 4.00, category: "extras" },
+                { id: 87, name: "طبق فول كبير", price: 5.00, category: "extras" }
+            ];
 
-<script>
-const menu = {
-  section1: [
-    ["نصف دجاج مشوي على الفحم", 20],
-    ["نصف دجاج مشوي ساده", 15],
-    ["وجبة بانيه 3 قطع", 25],
-    ["وجبة هامبورجر 3 قطع", 25],
-    ["وجبة كبدة جريل", 35],
-    ["وجبة شيش 3 أسياخ", 25],
-    ["وجبة كباب لحم 3 أسياخ", 25],
-    ["وجبة كباب دجاج 3 أسياخ", 22],
-    ["وجبة توستر 7 قطع", 20],
-    ["وجبة زنجر", 20],
-    ["وجبة إستربس 5 قطع", 18],
-    ["وجبة إستربس 8 قطع", 28],
-    ["وجبة أطفال", 15],
-    ["وجبة كبده على الفحم", 50],
-    ["وجبة معتز", 30],
-  ],
-  section2: [
-    ["هامبورجر لحم", 9],["كباب لحم", 9],["شيش طاووق بانيه", 9],["بانيه", 9],
-    ["زنجر معتز", 10],["توستر", 9],["طابونه", 9],["مكسكانو", 9],
-    ["هامبورجر دبل", 13],["بانيه دبل", 13],["كبده", 10],["إستيك دجاج", 9],
-    ["توستر صاروخ", 12],["مايتي زنجر", 12],["لافينو", 12],["كرسبي", 9],
-    ["كباب دجاج", 9],["هامبورجر دجاج", 9],
-  ],
-  section3: [
-    ["بيتزا مارجرينا", 18],["بيتزا حارة", 18],["بيتزا تن", 20],["بيتزا خضروات", 18],
-    ["بيتزا دجاج", 20],["بيتزا مفروم", 20],["بيتزا فقاع", 18],["بيتزا معتز", 20],
-    ["مقلوبه دجاج", 18],["مقلوبة مفروم", 18],["مقلوبة جبنه", 18],
-  ],
-  section7: [
-    ["بيتزا مارجرينا (كبير)", 20],["بيتزا حارة (كبير)", 20],["بيتزا تن (كبير)", 22],
-    ["بيتزا خضروات (كبير)", 20],["بيتزا دجاج (كبير)", 22],["بيتزا مفروم (كبير)", 22],
-    ["بيتزا فقاع (كبير)", 20],["بيتزا معتز (كبير)", 25],
-  ],
-  section4: [
-    ["كومبو بالمشروب", 15],["بوكس بورجر", 12],["بوكس توستر", 12],["بوكس كرسبي", 12],
-    ["بوكس بانيه", 12],["بوكس ميني زينجر", 12],["بوكس كباب", 12],
-    ["بوكس طابونة", 12],["بوكس مكسكانو", 12],["بوكس السعادة", 50],["بوكس معتز", 60],
-  ],
-  section5: [
-    ["وجبة 1: بطاطة -سلاطة - خبزة - كول سلو + 3 قطع كنتاكي", 18],
-    ["وجبة 2: بطاطة - سلاطة - خبزه - أرز كول سلو + 12 قطعة كنتاكي", 57],
-    ["وجبة 3: بطاطة - سلاطة - خبزة  - كول سلو + 5 قطع ستربس", 15],
-    ["وجبة 4: بطاطة - سلاطه - خبزة - أرز كول سلو + 6 قطع كنتاكي", 37],
-    ["وجبة 5: بطاطة - سلاطه - خبزة - أرز كول سلو + 15 قطعة كنتاكي", 76],
-    ["وجبة 6: شيش - كباب - توستر", 15],
-    ["وجبة 7: بطاطة - سلاطه - خبزة - أرز كول سلو+ 9 قطع كنتاكي", 47],
-    ["وجبة 8: بطاطه - صوص - مخلل + بوكس توستر", 15],
-    ["وجبة 9: بطاطة - سلاطه - خبزة - أرز كول سلو + 8 قطع ستربس", 20],
-  ],
-  section6: [
-    ["طبق بطاطا صغير", 3],["طبق بطاطا وسط", 5],["طبق بطاطا كبير", 10],
-    ["طرف كنتاكي", 4],["سندوتش فلافل", 3],["سلاطة كول سول", 2],
-    ["كاتشب - مايونيز - صوص حار", 2],["أرز", 3],["سندوتش فول", 3],
-    ["5 قطع فلافل", 1],["طبق مخلل", 3],["سندوتش مشكل", 4],
-    ["طعمية بالبيض", 4],["طبق فول صغير", 4],["طبق فول كبير", 5],
-  ],
-};
+            let cart = [];
+            let selectedTable = null;
 
-const cart = {};
+            const productsContainer = document.getElementById('products-container');
+            const navButtons = document.querySelectorAll('.nav-button');
+            const cartItemsList = document.getElementById('cart-items');
+            const cartTotalElement = document.getElementById('cart-total');
+            const checkoutBtn = document.getElementById('checkout-btn');
+            const loadingSpinner = document.querySelector('.loading-spinner');
+            
+            // عناصر نافذة تأكيد الطلب
+            const confirmationModal = document.getElementById('confirmationModal');
+            const closeModal = document.getElementById('closeModal');
+            const reserveTable = document.getElementById('reserveTable');
+            const tableSelection = document.getElementById('tableSelection');
+            const tableButtons = document.querySelectorAll('.table-btn');
+            const phoneNumber = document.getElementById('phoneNumber');
+            const address = document.getElementById('address');
+            const cancelOrder = document.getElementById('cancelOrder');
+            const sendOrder = document.getElementById('sendOrder');
+            const confirmationMessage = document.getElementById('confirmationMessage');
 
-function renderItems() {
-  for (let section in menu) {
-    const container = document.getElementById(section);
-    if (!container) continue;
-    menu[section].forEach(([name, price]) => {
-      const item = document.createElement("div");
-      item.className = "item";
-      item.innerHTML = `
-        <div>${name}<br><strong>${price} د.ل</strong></div>
-        <button onclick="addToCart('${name}', ${price})">+</button>
-        <span class="quantity-box" id="qty-${name}">0</span>
-        <button class="remove" onclick="removeFromCart('${name}')">-</button>
-      `;
-      container.appendChild(item);
-    });
-  }
-}
+            function createProductCategories() {
+                loadingSpinner.style.display = 'block';
+                productsContainer.innerHTML = ''; 
 
-function addToCart(name, price) {
-  if (!cart[name]) cart[name] = { price: price, qty: 0 };
-  cart[name].qty++;
-  document.getElementById("qty-" + name).innerText = cart[name].qty;
-  updateCart();
-}
+                setTimeout(() => {
+                    const categories = products.reduce((acc, product) => {
+                        if (!acc[product.category]) {
+                            acc[product.category] = [];
+                        }
+                        acc[product.category].push(product);
+                        return acc;
+                    }, {});
 
-function removeFromCart(name) {
-  if (cart[name] && cart[name].qty > 0) {
-    cart[name].qty--;
-    document.getElementById("qty-" + name).innerText = cart[name].qty;
-    if (cart[name].qty === 0) delete cart[name];
-    updateCart();
-  }
-}
+                    for (const categoryKey in categories) {
+                        const categoryDiv = document.createElement('div');
+                        categoryDiv.classList.add('product-category');
+                        categoryDiv.setAttribute('id', `category-${categoryKey}`);
 
-function updateCart() {
-  const cartItems = document.getElementById("cartItems");
-  cartItems.innerHTML = "";
-  const items = Object.entries(cart);
-  if (items.length === 0) {
-    cartItems.innerText = "لا توجد طلبات بعد.";
-    return;
-  }
-  items.forEach(([name, data]) => {
-    cartItems.innerHTML += `<div>${name} × ${data.qty} = ${data.qty * data.price} د.ل</div>`;
-  });
-}
+                        let categoryTitle = "";
+                        if (categoryKey === "boxes") categoryTitle = "بوكسات معتز";
+                        else if (categoryKey === "pizzas") categoryTitle = "البيتزا";
+                        else if (categoryKey === "maqlooba") categoryTitle = "المقلوبة";
+                        else if (categoryKey === "grilled_meals") categoryTitle = "المشويات والوجبات";
+                        else if (categoryKey === "sandwiches") categoryTitle = "ساندويتشات وأخرى";
+                        else if (categoryKey === "extra_meals") categoryTitle = "الوجبات الإضافية";
+                        else if (categoryKey === "extras") categoryTitle = "الإضافات";
+                        
+                        categoryDiv.innerHTML = `<h2>${categoryTitle}</h2><div class="product-grid"></div>`;
+                        
+                        const grid = categoryDiv.querySelector('.product-grid');
+                        categories[categoryKey].forEach(product => {
+                            const productCard = document.createElement('div');
+                            productCard.classList.add('product-card');
+                            productCard.innerHTML = `
+                                <h3>${product.name}</h3>
+                                <p class="price">${product.price.toFixed(2)} د.ل</p>
+                                <button class="add-to-cart-btn" data-id="${product.id}">أضف للسلة</button>
+                            `;
+                            grid.appendChild(productCard);
+                        });
+                        productsContainer.appendChild(categoryDiv);
+                    }
+                    loadingSpinner.style.display = 'none'; 
+                    showCategory('boxes'); 
+                }, 500); 
+            }
 
-function openModal() {
-  document.getElementById("orderModal").style.display = "flex";
-}
+            function showCategory(categoryName) {
+                document.querySelectorAll('.product-category').forEach(categoryDiv => {
+                    categoryDiv.classList.remove('active');
+                });
 
-function submitOrder() {
-  const phone = document.getElementById("phone").value;
-  const address = document.getElementById("address").value;
-  const delivery = document.getElementById("deliveryMethod").value;
-  const table = document.getElementById("tableNumber").value;
+                const activeCategoryDiv = document.getElementById(`category-${categoryName}`);
+                if (activeCategoryDiv) {
+                    activeCategoryDiv.classList.add('active');
+                }
 
-if (table && (isNaN(table) || table < 1 || table > 15)) {
-  alert("رقم الطاولة يجب أن يكون بين 1 و 15");
-  return;
-}
+                navButtons.forEach(button => {
+                    button.classList.remove('active');
+                    if (button.dataset.category === categoryName) {
+                        button.classList.add('active');
+                    }
+                });
+            }
 
+            function updateCart() {
+                cartItemsList.innerHTML = '';
+                let total = 0;
 
+                if (cart.length === 0) {
+                    const emptyCartMessage = document.createElement('li');
+                    emptyCartMessage.textContent = "السلة فارغة حالياً.";
+                    emptyCartMessage.style.textAlign = "center";
+                    emptyCartMessage.style.color = "#888";
+                    cartItemsList.appendChild(emptyCartMessage);
+                } else {
+                    cart.forEach(item => {
+                        const listItem = document.createElement('li');
+                        listItem.innerHTML = `
+                            <span>${item.name} (x${item.quantity})</span>
+                            <span>${(item.price * item.quantity).toFixed(2)} د.ل</span>
+                            <button class="remove-item" data-id="${item.id}">X</button>
+                        `;
+                        cartItemsList.appendChild(listItem);
+                        total += item.price * item.quantity;
+                    });
+                }
+                
+                cartTotalElement.textContent = `الإجمالي: ${total.toFixed(2)} د.ل`;
 
-  if (!phone || !address) {
-    alert("يرجى تعبئة كافة الحقول");
-    return;
-  }
+                if (cart.length > 0) {
+                    checkoutBtn.removeAttribute('disabled');
+                    checkoutBtn.style.opacity = '1';
+                    checkoutBtn.style.cursor = 'pointer';
+                } else {
+                    checkoutBtn.setAttribute('disabled', 'true');
+                    checkoutBtn.style.opacity = '0.6';
+                    checkoutBtn.style.cursor = 'not-allowed';
+                }
+            }
 
-  let orderMessage = `طلب جديد:\n`;
-  for (let [name, data] of Object.entries(cart)) {
-    orderMessage += `${name} × ${data.qty} = ${data.qty * data.price} د.ل\n`;
-  }
-  orderMessage += `\nالاجمالي: ${Object.values(cart).reduce((sum, item) => sum + item.qty * item.price, 0)} د.ل`;
-  orderMessage += `\nرقم الهاتف: ${phone}\nالعنوان: ${address}\nطريقة الطلب: ${delivery}`;
- if (table) orderMessage += `\nرقم الطاولة: ${table}`;
+            function addToCart(productId, clickedButton) {
+                const productToAdd = products.find(p => p.id === productId);
+                if (productToAdd) {
+                    const existingItem = cart.find(item => item.id === productId);
+                    if (existingItem) {
+                        existingItem.quantity++;
+                    } else {
+                        cart.push({ ...productToAdd, quantity: 1 });
+                    }
+                    updateCart();
 
+                    if (clickedButton) {
+                        clickedButton.classList.add('added');
+                        setTimeout(() => {
+                            clickedButton.classList.remove('added');
+                        }, 500); 
+                    }
+                }
+            }
 
-  const whatsappUrl = `https://wa.me/218921835737?text=${encodeURIComponent(orderMessage)}`;
-  window.open(whatsappUrl, "_blank");
-  document.getElementById("orderModal").style.display = "none";
-}
+            function removeFromCart(productId) {
+                const itemIndex = cart.findIndex(item => item.id === productId);
+                if (itemIndex > -1) {
+                    if (cart[itemIndex].quantity > 1) {
+                        cart[itemIndex].quantity--;
+                    } else {
+                        cart.splice(itemIndex, 1);
+                    }
+                    updateCart();
+                }
+            }
 
-renderItems();
-</script>
+            // فتح نافذة تأكيد الطلب
+            function openConfirmationModal() {
+                // إعادة تعيين الحقول
+                phoneNumber.value = '';
+                address.value = '';
+                reserveTable.checked = false;
+                tableSelection.classList.remove('active');
+                selectedTable = null;
+                
+                // إعادة تعيين أزرار الطاولات
+                document.querySelectorAll('.table-btn').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                
+                confirmationModal.classList.add('active');
+            }
+            
+            // إغلاق نافذة تأكيد الطلب
+            function closeConfirmationModal() {
+                confirmationModal.classList.remove('active');
+            }
+            
+            // إظهار رسالة التأكيد بعد الإرسال
+            function showConfirmationMessage() {
+                confirmationModal.classList.remove('active');
+                confirmationMessage.classList.add('active');
+            }
+            
+            // اختيار طاولة
+            function selectTable(tableNumber) {
+                // إلغاء تحديد أي طاولة أخرى
+                document.querySelectorAll('.table-btn').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                
+                // تحديد الطاولة المختارة
+                const selectedBtn = document.querySelector(`.table-btn[data-table="${tableNumber}"]`);
+                if (selectedBtn) {
+                    selectedBtn.classList.add('selected');
+                    selectedTable = tableNumber;
+                }
+            }
+            
+            // إرسال الطلب عبر واتساب
+            function sendOrderToWhatsApp() {
+                const phone = phoneNumber.value;
+                const addressVal = address.value;
+                
+                // التحقق من صحة البيانات
+                if (!phone || !addressVal) {
+                    alert('الرجاء إدخال جميع البيانات المطلوبة');
+                    return;
+                }
+                
+                // بناء رسالة الطلب
+                let message = `طلب جديد من مطعم معتز بو عشرين:%0A%0A`;
+                message += `رقم الهاتف: ${phone}%0A`;
+                message += `العنوان: ${addressVal}%0A`;
+                
+                if (reserveTable.checked && selectedTable) {
+                    message += `تم حجز الطاولة رقم: ${selectedTable}%0A`;
+                }
+                
+                message += `%0Aتفاصيل الطلب:%0A`;
+                cart.forEach(item => {
+                    message += `- ${item.name} (${item.quantity} x ${item.price.toFixed(2)} د.ل)%0A`;
+                });
+                
+                message += `%0Aالإجمالي: ${document.getElementById('cart-total').textContent}%0A`;
+                
+                // إنشاء رابط واتساب (باستخدام الرقم الجديد)
+                const whatsappUrl = `https://wa.me/218921835737?text=${message}`;
+                
+                // فتح الرابط في نافذة جديدة
+                window.open(whatsappUrl, '_blank');
+                
+                // إفراغ السلة
+                cart = [];
+                updateCart();
+                
+                // إظهار رسالة التأكيد
+                showConfirmationMessage();
+            }
 
+            // أحداث الصفحة
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const category = button.dataset.category;
+                    showCategory(category);
+                });
+            });
+
+            productsContainer.addEventListener('click', (event) => {
+                if (event.target.classList.contains('add-to-cart-btn')) {
+                    const productId = parseInt(event.target.dataset.id);
+                    addToCart(productId, event.target); 
+                }
+            });
+
+            cartItemsList.addEventListener('click', (event) => {
+                if (event.target.classList.contains('remove-item')) {
+                    const productId = parseInt(event.target.dataset.id);
+                    removeFromCart(productId);
+                }
+            });
+
+            checkoutBtn.addEventListener('click', () => {
+                if (cart.length > 0) {
+                    openConfirmationModal();
+                } else {
+                    alert('سلة التسوق فارغة. يرجى إضافة بعض المنتجات أولاً.');
+                }
+            });
+            
+            // أحداث نافذة تأكيد الطلب
+            reserveTable.addEventListener('change', () => {
+                if (reserveTable.checked) {
+                    tableSelection.classList.add('active');
+                } else {
+                    tableSelection.classList.remove('active');
+                    selectedTable = null;
+                    document.querySelectorAll('.table-btn').forEach(btn => {
+                        btn.classList.remove('selected');
+                    });
+                }
+            });
+            
+            // إضافة الأحداث لأزرار الطاولات (بما أننا أضفنا طاولات ديناميكيًا)
+            document.addEventListener('click', (e) => {
+                if (e.target.classList.contains('table-btn')) {
+                    const tableNumber = e.target.dataset.table;
+                    selectTable(tableNumber);
+                }
+            });
+            
+            closeModal.addEventListener('click', closeConfirmationModal);
+            cancelOrder.addEventListener('click', closeConfirmationModal);
+            sendOrder.addEventListener('click', sendOrderToWhatsApp);
+            
+            // إغلاق النوافذ عند النقر خارجها
+            window.addEventListener('click', (e) => {
+                if (e.target === confirmationModal) {
+                    closeConfirmationModal();
+                }
+                if (e.target === confirmationMessage) {
+                    confirmationMessage.classList.remove('active');
+                }
+            });
+
+            // Initialization
+            createProductCategories();
+            updateCart();
+        });
+    </script>
 </body>
 </html>
