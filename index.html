@@ -23,6 +23,12 @@
             text-align: right;
             min-height: 100vh;
             padding-top: 220px; /* مساحة لأعلى الصفحة للهيدر */
+            transition: padding-top 0.5s ease;
+        }
+        
+        /* تعديل عند إخفاء الهيدر */
+        body.header-hidden {
+            padding-top: 20px;
         }
 
         /* شريط التمرير المخصص لمتصفحات WebKit */
@@ -45,20 +51,50 @@
             background: #c95d00;
         }
 
-        /* الهيدر الثابت */
+        /* زر التحكم */
+        .toggle-header-btn {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1001;
+            background-color: #a04000;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5em;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .toggle-header-btn:hover {
+            background-color: #c95d00;
+            transform: scale(1.1);
+        }
+
+        /* الهيدر الثابت مع تأثير التلاشي */
         .header-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             z-index: 1000;
-            transition: transform 0.4s ease;
-            transform: translateY(0);
+            transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.4s ease;
+            opacity: 1;
+            visibility: visible;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
         
         .header-container.hidden {
-            transform: translateY(-100%);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-20px);
         }
 
         header {
@@ -651,6 +687,10 @@
             body {
                 padding-top: 200px;
             }
+            
+            body.header-hidden {
+                padding-top: 20px;
+            }
         }
 
         @media (max-width: 768px) {
@@ -701,6 +741,10 @@
                 padding-top: 180px;
             }
             
+            body.header-hidden {
+                padding-top: 20px;
+            }
+            
             header h1 {
                 font-size: 1.8em;
             }
@@ -730,6 +774,10 @@
                 padding-top: 160px;
             }
             
+            body.header-hidden {
+                padding-top: 20px;
+            }
+            
             header h1 {
                 font-size: 1.6em;
             }
@@ -738,10 +786,21 @@
                 padding: 8px;
                 font-size: 0.9em;
             }
+            
+            .toggle-header-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2em;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- زر التحكم في إخفاء وإظهار الهيدر -->
+    <button class="toggle-header-btn" id="toggleHeaderBtn">
+        <i class="fas fa-eye"></i>
+    </button>
+
     <!-- مؤشر التمرير -->
     <div class="scroll-indicator" id="scrollIndicator">
         اسحب للأعلى لإظهار الهيدر
@@ -969,6 +1028,7 @@
             let cart = [];
             let selectedTable = null;
             let lastScrollTop = 0;
+            let headerVisible = true;
 
             const productsContainer = document.getElementById('products-container');
             const navButtons = document.querySelectorAll('.nav-button');
@@ -978,6 +1038,7 @@
             const loadingSpinner = document.querySelector('.loading-spinner');
             const headerContainer = document.getElementById('headerContainer');
             const scrollIndicator = document.getElementById('scrollIndicator');
+            const toggleHeaderBtn = document.getElementById('toggleHeaderBtn');
             
             // عناصر نافذة تأكيد الطلب
             const confirmationModal = document.getElementById('confirmationModal');
@@ -990,8 +1051,25 @@
             const sendOrder = document.getElementById('sendOrder');
             const confirmationMessage = document.getElementById('confirmationMessage');
 
+            // وظيفة التحكم في إخفاء وإظهار الهيدر
+            function toggleHeader() {
+                headerVisible = !headerVisible;
+                
+                if (headerVisible) {
+                    headerContainer.classList.remove('hidden');
+                    document.body.classList.remove('header-hidden');
+                    toggleHeaderBtn.innerHTML = '<i class="fas fa-eye"></i>';
+                } else {
+                    headerContainer.classList.add('hidden');
+                    document.body.classList.add('header-hidden');
+                    toggleHeaderBtn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+                }
+            }
+
             // إدارة التمرير لإظهار/إخفاء الهيدر وشريط الأقسام
             window.addEventListener('scroll', () => {
+                if (!headerVisible) return;
+                
                 const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 
                 if (scrollTop > lastScrollTop && scrollTop > 100) {
@@ -1290,6 +1368,9 @@
                     confirmationMessage.classList.remove('active');
                 }
             });
+            
+            // حدث التحكم في إخفاء وإظهار الهيدر
+            toggleHeaderBtn.addEventListener('click', toggleHeader);
 
             // Initialization
             createProductCategories();
