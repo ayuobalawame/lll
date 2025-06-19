@@ -9,6 +9,10 @@
         /* CSS Styling */
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Cairo', sans-serif;
             margin: 0;
@@ -18,6 +22,7 @@
             direction: rtl;
             text-align: right;
             min-height: 100vh;
+            padding-top: 220px; /* مساحة لأعلى الصفحة للهيدر */
         }
 
         /* شريط التمرير المخصص لمتصفحات WebKit */
@@ -40,6 +45,21 @@
             background: #c95d00;
         }
 
+        /* الهيدر الثابت */
+        .header-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: transform 0.4s ease;
+            transform: translateY(0);
+        }
+        
+        .header-container.hidden {
+            transform: translateY(-100%);
+        }
+
         header {
             background-color: #a04000;
             color: white;
@@ -47,7 +67,6 @@
             text-align: center;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             position: relative;
-            overflow: hidden;
         }
 
         header h1 {
@@ -55,6 +74,7 @@
             font-size: 2.8em;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
             padding: 10px 0;
+            transition: font-size 0.3s;
         }
 
         .branches {
@@ -80,6 +100,7 @@
             max-width: 500px;
             font-weight: bold;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
         }
 
         nav {
@@ -89,10 +110,11 @@
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
             position: sticky;
             top: 0;
-            z-index: 1000;
+            z-index: 1001; /* أعلى من الهيدر */
             overflow-x: auto;
             white-space: nowrap;
             padding-bottom: 5px;
+            transition: top 0.4s;
         }
 
         .nav-button {
@@ -598,6 +620,28 @@
             background-color: #128C7E;
         }
 
+        .scroll-indicator {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #a04000;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            z-index: 1002;
+            display: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+            40% {transform: translateX(-50%) translateY(-10px);}
+            60% {transform: translateX(-50%) translateY(-5px);}
+        }
+
         @media (max-width: 1200px) {
             .table-grid {
                 grid-template-columns: repeat(4, 1fr);
@@ -607,6 +651,10 @@
         @media (max-width: 992px) {
             .table-grid {
                 grid-template-columns: repeat(3, 1fr);
+            }
+            
+            body {
+                padding-top: 200px;
             }
         }
 
@@ -656,6 +704,19 @@
             .table-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
+            
+            body {
+                padding-top: 180px;
+            }
+            
+            header h1 {
+                font-size: 1.8em;
+            }
+            
+            .branches {
+                padding: 10px;
+                font-size: 1em;
+            }
         }
 
         @media (max-width: 576px) {
@@ -672,23 +733,44 @@
                 padding: 10px;
                 font-size: 1em;
             }
+            
+            body {
+                padding-top: 160px;
+            }
+            
+            header h1 {
+                font-size: 1.6em;
+            }
+            
+            .branches .delivery {
+                padding: 8px;
+                font-size: 0.9em;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>مطعم معتز بو عشرين</h1>
-    </header>
-    
-    <div class="branches">
-        <p>📍 شبنه - الطريق الدائري الرابع</p>
-        <p>📍 سيدي خليفة - طريق الساحل</p>
-        <p>📍 الصابري - الزريريعية</p>
-        <div class="delivery">
-            <p>______</p>
-            <p>لطلب الدليفري: 0921835737 📞</p>
-            <p>خدمه العملاء: 0930066552 ☎️</p>
-            <p>مطعم معتز بوعشرين في انتضاركم 🤗〽️</p>
+    <!-- مؤشر التمرير -->
+    <div class="scroll-indicator" id="scrollIndicator">
+        اسحب للأعلى لإظهار الهيدر
+    </div>
+
+    <!-- الهيدر الثابت -->
+    <div class="header-container" id="headerContainer">
+        <header>
+            <h1>مطعم معتز بو عشرين</h1>
+        </header>
+        
+        <div class="branches">
+            <p>📍 شبنه - الطريق الدائري الرابع</p>
+            <p>📍 سيدي خليفة - طريق الساحل</p>
+            <p>📍 الصابري - الزريريعية</p>
+            <div class="delivery">
+                <p>______</p>
+                <p>لطلب الدليفري: 0921835737 📞</p>
+                <p>خدمه العملاء: 0930066552 ☎️</p>
+                <p>مطعم معتز بوعشرين في انتضاركم 🤗〽️</p>
+            </div>
         </div>
     </div>
 
@@ -893,6 +975,7 @@
 
             let cart = [];
             let selectedTable = null;
+            let lastScrollTop = 0;
 
             const productsContainer = document.getElementById('products-container');
             const navButtons = document.querySelectorAll('.nav-button');
@@ -900,6 +983,8 @@
             const cartTotalElement = document.getElementById('cart-total');
             const checkoutBtn = document.getElementById('checkout-btn');
             const loadingSpinner = document.querySelector('.loading-spinner');
+            const headerContainer = document.getElementById('headerContainer');
+            const scrollIndicator = document.getElementById('scrollIndicator');
             
             // عناصر نافذة تأكيد الطلب
             const confirmationModal = document.getElementById('confirmationModal');
@@ -912,6 +997,25 @@
             const cancelOrder = document.getElementById('cancelOrder');
             const sendOrder = document.getElementById('sendOrder');
             const confirmationMessage = document.getElementById('confirmationMessage');
+
+            // إدارة التمرير لإظهار/إخفاء الهيدر
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                if (scrollTop > lastScrollTop && scrollTop > 100) {
+                    // التمرير لأسفل - إخفاء الهيدر
+                    headerContainer.classList.add('hidden');
+                    if (scrollTop > 300) {
+                        scrollIndicator.style.display = 'block';
+                    }
+                } else if (scrollTop < lastScrollTop - 10) {
+                    // التمرير لأعلى - إظهار الهيدر
+                    headerContainer.classList.remove('hidden');
+                    scrollIndicator.style.display = 'none';
+                }
+                
+                lastScrollTop = scrollTop;
+            });
 
             function createProductCategories() {
                 loadingSpinner.style.display = 'block';
