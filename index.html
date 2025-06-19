@@ -54,6 +54,7 @@
             z-index: 1000;
             transition: transform 0.4s ease;
             transform: translateY(0);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
         
         .header-container.hidden {
@@ -65,7 +66,6 @@
             color: white;
             padding: 20px 0;
             text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             position: relative;
         }
 
@@ -83,7 +83,6 @@
             padding: 15px;
             text-align: center;
             font-size: 1.1em;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .branches p {
@@ -108,13 +107,9 @@
             padding: 10px 0;
             text-align: center;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-            position: sticky;
-            top: 0;
-            z-index: 1001; /* أعلى من الهيدر */
             overflow-x: auto;
             white-space: nowrap;
             padding-bottom: 5px;
-            transition: top 0.4s;
         }
 
         .nav-button {
@@ -670,9 +665,6 @@
                 max-height: unset;
                 padding: 20px;
             }
-            nav {
-                padding: 10px 5px;
-            }
             .nav-button {
                 display: block;
                 margin: 10px auto;
@@ -755,7 +747,7 @@
         اسحب للأعلى لإظهار الهيدر
     </div>
 
-    <!-- الهيدر الثابت -->
+    <!-- الهيدر الثابت مع شريط الأقسام -->
     <div class="header-container" id="headerContainer">
         <header>
             <h1>مطعم معتز بو عشرين</h1>
@@ -772,17 +764,18 @@
                 <p>مطعم معتز بوعشرين في انتضاركم 🤗〽️</p>
             </div>
         </div>
+        
+        <!-- شريط الأقسام - تم دمجه مع الهيدر -->
+        <nav>
+            <button class="nav-button active" data-category="boxes">بوكسات</button>
+            <button class="nav-button" data-category="pizzas">بيتزا</button>
+            <button class="nav-button" data-category="maqlooba">مقلوبة</button>
+            <button class="nav-button" data-category="grilled_meals">مشويات ووجبات</button>
+            <button class="nav-button" data-category="sandwiches">ساندويتشات وأخرى</button>
+            <button class="nav-button" data-category="extra_meals">الوجبات الإضافية</button>
+            <button class="nav-button" data-category="extras">الإضافات</button>
+        </nav>
     </div>
-
-    <nav>
-        <button class="nav-button active" data-category="boxes">بوكسات</button>
-        <button class="nav-button" data-category="pizzas">بيتزا</button>
-        <button class="nav-button" data-category="maqlooba">مقلوبة</button>
-        <button class="nav-button" data-category="grilled_meals">مشويات ووجبات</button>
-        <button class="nav-button" data-category="sandwiches">ساندويتشات وأخرى</button>
-        <button class="nav-button" data-category="extra_meals">الوجبات الإضافية</button>
-        <button class="nav-button" data-category="extras">الإضافات</button>
-    </nav>
 
     <main>
         <section id="products-container">
@@ -991,25 +984,24 @@
             const closeModal = document.getElementById('closeModal');
             const reserveTable = document.getElementById('reserveTable');
             const tableSelection = document.getElementById('tableSelection');
-            const tableButtons = document.querySelectorAll('.table-btn');
             const phoneNumber = document.getElementById('phoneNumber');
             const address = document.getElementById('address');
             const cancelOrder = document.getElementById('cancelOrder');
             const sendOrder = document.getElementById('sendOrder');
             const confirmationMessage = document.getElementById('confirmationMessage');
 
-            // إدارة التمرير لإظهار/إخفاء الهيدر
+            // إدارة التمرير لإظهار/إخفاء الهيدر وشريط الأقسام
             window.addEventListener('scroll', () => {
                 const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 
                 if (scrollTop > lastScrollTop && scrollTop > 100) {
-                    // التمرير لأسفل - إخفاء الهيدر
+                    // التمرير لأسفل - إخفاء الهيدر وشريط الأقسام
                     headerContainer.classList.add('hidden');
                     if (scrollTop > 300) {
                         scrollIndicator.style.display = 'block';
                     }
                 } else if (scrollTop < lastScrollTop - 10) {
-                    // التمرير لأعلى - إظهار الهيدر
+                    // التمرير لأعلى - إظهار الهيدر وشريط الأقسام
                     headerContainer.classList.remove('hidden');
                     scrollIndicator.style.display = 'none';
                 }
